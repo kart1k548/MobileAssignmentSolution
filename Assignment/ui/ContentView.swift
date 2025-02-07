@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    private var viewModel = ContentViewModel()
+    @StateObject private var viewModel = ContentViewModel()
     @State private var path: [DeviceData] = [] // Navigation path
-
+    
     var body: some View {
         NavigationStack(path: $path) {
             Group {
@@ -30,7 +30,11 @@ struct ContentView: View {
             .navigationDestination(for: DeviceData.self) { computer in
                 DetailView(device: computer)
             }
+            .alert("Showing cached results", isPresented: $viewModel.isShowingOfflineResults) {
+                Button("OK", role: .cancel) { }
+            }
             .onAppear {
+                viewModel.fetchAPI()
                 let navigate = viewModel.navigateDetail
                 if (navigate != nil) {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

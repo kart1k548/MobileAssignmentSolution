@@ -9,11 +9,26 @@ import Foundation
 import SwiftUI
 
 struct AssignmentText: View {
-    let text: String
+    let name: String
+    var color: String?
+    var price: Double?
+    var description: String?
 
     var body: some View {
-        Text(text)
+        Text(name)
             .font(.headline)
-            .foregroundColor(Color("#FFFFFF"))
+            .foregroundColor(.black)
+        if let color {
+            Text("Color: \(color)")
+                .foregroundColor(.black)
+        }
+        if let price {
+            Text("Price: $ \(price, specifier: "%2f")")
+                .foregroundColor(.black)
+        }
+        if let description {
+            Text("Description: \(description)")
+                .foregroundColor(.black)
+        }
     }
 }

@@ -8,15 +8,24 @@
 import Foundation
 
 
-class ContentViewModel : ObservableObject {
+class ContentViewModel: ObservableObject {
     
     private let apiService = ApiService()
     @Published var navigateDetail: DeviceData? = nil
     @Published var data: [DeviceData]? = []
+    @Published var isShowingOfflineResults: Bool = false
 
     func fetchAPI() {
         apiService.fetchDeviceDetails(completion: { item in
-            self.data = item
+            DispatchQueue.main.async {
+                if item.isEmpty {
+                    self.data = DeviceDataCache.shared.getData()
+                    self.isShowingOfflineResults = true
+                } else {
+                    self.data = item
+                    DeviceDataCache.shared.setData(item)
+                }
+            }
         })
     }
     

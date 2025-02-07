@@ -17,7 +17,7 @@ struct DevicesList: View {
                 onSelect(device)
             } label: {
                 VStack(alignment: .leading) {
-                    AssignmentText(text: device.name)
+                    AssignmentText(name: device.name, color: device.data?.color, price: device.data?.price, description: device.data?.description)
                 }
             }
         }
